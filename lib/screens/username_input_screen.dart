@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 import '../widgets/custom_text_field.dart';
 import '../screens/profile_screen.dart';
 
@@ -30,16 +32,13 @@ class _UsernameInputScreenState extends State<UsernameInputScreen> {
     if (_formKey.currentState!.validate()) {
       final username = _controller.text.trim();
 
-      // Save to SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('github_username', username);
 
-      // Confirm to user
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Username saved successfully')),
       );
 
-      // Navigate to ProfileScreen
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -51,27 +50,35 @@ class _UsernameInputScreenState extends State<UsernameInputScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: Colors.blueGrey[50],
+      backgroundColor: isDark ? Colors.grey[900] : Colors.blueGrey[50],
       body: Center(
         child: Card(
-          elevation: 8,
+          elevation: 10,
           margin: const EdgeInsets.symmetric(horizontal: 24),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 28),
             child: Form(
               key: _formKey,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    'Enter GitHub Username',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                  // GitHub logo
+                  Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/1024px-Octicons-mark-github.svg.png',
+                    width: 120,
+                    height: 120,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error, color: Colors.red, size: 80);
+                    },
                   ),
                   SizedBox(height: 20),
+                  // Username input field
                   CustomTextField(
                     label: 'GitHub Username',
                     hintText: 'e.g. octocat',
@@ -87,16 +94,18 @@ class _UsernameInputScreenState extends State<UsernameInputScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  SizedBox(height: 30),
+                  // Continue button
                   SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
                       onPressed: _submitUsername,
-                      child: Text('Continue'),
+                      icon: FaIcon(FontAwesomeIcons.arrowRight),
+                      label: Text('Continue'),
                       style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),

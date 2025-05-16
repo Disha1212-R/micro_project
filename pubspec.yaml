@@ -38,6 +38,11 @@ dependencies:
   http: ^0.13.6
   url_launcher: ^6.2.5
   linkable: ^3.0.2
+  intl: ^0.18.1
+  fl_chart: ^0.40.6
+  simple_heatmap_calendar: ^0.4.0
+  lottie: ^2.6.0
+  font_awesome_flutter: ^10.6.0
 
 dev_dependencies:
   flutter_test:
@@ -55,6 +60,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
